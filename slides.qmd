@@ -3,8 +3,12 @@ title: "Collective cooperative intelligence"
 subtitle: "Paper review"
 author: "Barfuss, Flack, et. al."
 institute: Zuse Institute Berlin
+callout-appearance: simple
 format:
     revealjs:
+        width: 85%
+        height: 100%
+        center: true
         logo: "img/zib/ZIB_Logo_small.svg"
         output-file: index.html
         footer: "Paper review"
