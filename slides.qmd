@@ -1,0 +1,254 @@
+---
+title: "Collective cooperative intelligence"
+subtitle: "Paper review"
+author: "Barfuss, Flack, et. al."
+institute: Zuse Institute Berlin
+format:
+    revealjs:
+        logo: "img/zib/ZIB_Logo_small.svg"
+        output-file: index.html
+        footer: "Paper review"
+        incremental: true
+        html-math-method: mathjax
+        theme: zib.scss
+        scrollable: true
+        default-image-extension: png
+        mermaid-format: svg
+        auto-stretch: false
+        multiplex: true
+        title-slide-attributes:
+          data-background-color: "#000099"
+    beamer:
+        papersize: a4
+        fig-align: center
+        default-image-extension: pdf
+        header-includes:
+        - \logo{\ifnum\thepage>1\includegraphics[width=1cm]{img/zib/ZIB_Logo_small.png}\fi}
+        - \titlegraphic{\includegraphics[width=2.5cm]{img/zib/ZIB_Logo_blue.png}}
+bibliography: ZIB.bib
+lang: en-us
+self-contained: true
+lightbox: false
+nocite: |
+  @*
+---
+
+# Background
+
+The authors propose a bridge between two disciplines:
+- Complexity systems science (CSS),
+
+- and Multi-Agent Reinforcement Learning (MARL),
+  to expose a framework for collective artificial intelligence.
+
+. . .
+
+::: {.callout-tip}
+"Intelligence refers to the general ability to achieve a diverse set of goals"
+:::
+
+- The main focus of study is the emergence of _cooperation_ in multi-agent systems
+
+## Complexity Science (CSS)
+
+- The authors identify that the main focus of CSS is understanding the emergence of
+macro-level behavior from simple micro-level processes. Mostly qualitative, conceptual
+models.
+
+- Usually in low-dimensional environments
+
+- High emphasis in mechanism simplicity
+
+- Computationally lightweight
+
+- Cooperation is usually "baked in" the model. An explicit model component is added to
+  capture it.
+
+- **Usual toolset**
+  - Dynamics
+  - Analytics
+
+## Multi-Agent Reinforcement Learning (MARL)
+
+- **Main focus**: Improve the cooperation mechanics (then study them)
+
+- Usually very high-dimensional state spaces
+
+- Cooperation is typically not given as an "RL action", it emerges as a learned behavior
+
+- Very computationally expensive
+
+- **Usual toolset**:
+  - Simulations
+  - Algorithm design
+
+- Inherent stochasticity & large number of parameters makes interpretation hard 
+
+. . .
+
+:::{.callout-important}
+"MARL simulations (by themselves) do not facilitate analytically reliable insights into
+how collective cooperation emerges from complex human and machine behavior in dynamic
+environments."
+:::
+
+# Combining CSS and MARL
+
+For the time being we skip all technicalities and understand the main goal first
+
+----
+
+- We want to use the CSS toolset to understand MARL as a complex dynamical system,
+  - and then study the emergence of cooperation under that lens
+
+. . .
+
+::: {.callout-tip}
+## Definition
+**Collective Reinforcement Learning Dynamics (CRLD)**: Uses techniques from nonlinear
+*dynamical systems to model the emergence of _cooperative intelligence_ in a MARL
+*environment.
+:::
+
+- Two idealizations in CRLD:
+  - Focus on low-dimensional environments, unlike MARL
+
+  - Simplifies the stochastic nature & the computationally demanding RL algorithms by
+  turning them into (deterministic) differential equations
+
+- CRLD is capable of capturing an summarizing the idealized learning behavior of some
+  agents (learning cooperation)
+
+## CRLD strengths
+
+The CSS techniques and approaches are what allow CRLD to bring more insight to MARL. What
+the CSS bring to the table
+
+- **Complex phenomena**: CRLD has the power to uncover the emergent behavior at a much
+  lighter computational load
+
+- **Multistability**: CRLD can characterize entire dynamics,
+  like
+  - Phase spaces, with stability landscape (where the equilibria are)
+  - Existance of stable/unstable equilibrium points
+  - Basins of attraction
+  
+- **Critical transitions**: robust way to find hysteretic behavior.
+
+- **Collective memory**: Hysterisis observed in MARL is a form of collective memory
+  - similarly, we can model potential outsourcing of cognitive functions (e.g. standards,
+    cultural norms & institutions).
+
+-------
+
+Now we focus on what the MARL techniques can offer to enrich the CSS approach
+
+- **Cooperation from individual cognition**: CSS models the spread of successful
+  strategies as copying. This assumes all agents share success criteria. MARL allows for
+  more realism (e.g. intrinsic motivations, homestasis)
+
+- **Cooperation in large collectives**: CSS must simplify individuals into a homogenous
+category. The CRLD approach allows a collective of heterogenous individuals to be treated
+as a dynamical system. It extends the "mean-field approaches" in MARL
+
+- **Cooperation in dynamic environments**: MARL naturally works with dynamic, uncertain,
+  partially-observable environments, which is significantly more challenging in CSS.
+
+
+------
+
+::: {.callout-note}
+The proposed bridge built by CRLD aims to bring the comparative advantages of CSS and MARL
+together by developing a shared mathematical framework. The comparative advantages each
+have, make them complement one another.
+:::
+
+- The authors believe the study of collective cooperation (intelligent actors in complex
+environments acting to improve their joint well-being) is critical for a future with
+collective existential threats (foreshadowing).
+
+# Technicalities
+
+But what is cooperation? what are agents cooperating for? what is _learning behavior_?
+
+- CRLD uses a set of dynamical equations, not RL algorithms, to model the learning
+  behavior of the agents:
+
+::: {.callout-tip}
+## Definition
+The **joint strategy**, denoted $X_{t}^i$, is the probability of each agent $i$ choosing
+action $a$ in state $s$. This is akin to the _dynamics_ function in standard RL parlance.
+
+By **learning behavior**, we mean the dynamics of the joint strategy update.
+:::
+
+##  The ecological tipping environment
+
+:::{.columns}
+:::{.column width="50%"}
+![Illustrative environment for collective action](img/ecological-tipping.png)
+:::
+:::{.column width="50%"}
+- Two agents play a public goods game
+
+- There is an immediate incentive to exploit, but the mutual optimal es cooperation
+
+- The dynamic environments: consisting of two states, a prosperous and a degraded one
+  - Each defecting agent increases the probability of collapse
+
+  - When collapsing to the degraded state, each agent suffers from the collapse by a
+  negative impact until the prosperous state is re-established.
+:::
+:::
+
+----------
+
+- The ecological tipping environment exhibits hysteresis
+
+- Multistability in CRLD applied to the ecological tipping environment. The dynamics
+  equations used are based on temporal-difference learning
+  $$
+    X_{t+1}^i (s,a) = \frac{1}{\xi_{X_t}^i (s)} X_{t}^i(s, a)
+      \exp(\eta^i \cdot \delta_{x_t}^i(s, a))
+  $$
+
+:::{.columns}
+:::{.column width="50%"}
+![Phase space projection of the prosperous state of the ecological public goods environment](img/phase-space.png)
+:::
+:::{.column width="50%"}
+- Each arrow represents (intuitively) the direction in which the collective will learn
+- The blue learning trajectories enter mutual-cooperation strategy equilibrium point
+- The red trajectories lead to mutual defection
+- The comparative sizes of the attraction basins are a good metric for how resilient cooperation is to perturbations
+:::
+:::
+
+::: {.notes}
+- $\delta_{x_t}^i(s, a)$: exponent of the previous strategy-average temporaldifference error. It tells an agent how to adapt its strategy to gain more reward
+- $\eta^i$: effective learning rate
+- The normalization factor is such that $X_{t}^i$ is a probability distribution
+
+
+- For discount factors below 0.7, full defection is globally stable (i.e., reached for any initial condition)
+- and for those above 0.85, full cooperation is globally stable.
+- In between, they are in a bistable regime where both full cooperation and full defection are stable
+:::
+
+## Misc. observations
+
+- Hysteresis is exhibited in the ecological tipping environment when the discount factor is varied
+  - Modifications to the discount factor can lead to a critical transition from cooperation to defection, and back, along different paths
+
+- The ecological tipping environment also exhibits timescale separation
+  - Agents' convergence speed to a strategy shows a critical point w.r.t the discount factor
+
+## Conclusion
+
+- CRLD tries to leverage the realism of MARL, and the analytical tooling from CSS to understand emergent behaviour in multi-agent systems
+
+- CRLD can capture phenomena such as multistability, critical transitions, and collective memory
+
+- The paper reads as half review, half position paper. The call to action is to try to apply CRLD to as many things as possible
+
+# References
