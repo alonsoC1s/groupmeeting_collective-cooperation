@@ -31,7 +31,8 @@ format:
         - \titlegraphic{\includegraphics[width=2.5cm]{img/zib/ZIB_Logo_blue.png}}
 bibliography: ZIB.bib
 lang: en-us
-self-contained: true
+self-contained: false
+embed-resources: true
 lightbox: false
 nocite: |
   @*
